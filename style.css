@@ -188,3 +188,6 @@ h1 { font-weight: 600; }
 .lb-single .lb-prev, .lb-single .lb-next { display: none; }
 @media (max-width: 640px) { .lb { padding: 56px 8px 24px; } .lb-prev, .lb-next { top: auto; bottom: 12px; transform: none; } }
 .zoomable { cursor: zoom-in; }
+#list li.zoomable { cursor: zoom-in; transition: border-color .15s, background .15s; }
+#list li.zoomable:hover { border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); background: var(--soft); }
+#list li.zoomable .btn-sm { cursor: pointer; }

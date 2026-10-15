@@ -356,7 +356,9 @@
           thumb.src = item.outs?.[0]?.blob.type.startsWith("image/") ? item.outs[0].url : item.thumb;
           thumb.className = "zoomable";
           thumb.title = t("preview");
-          thumb.onclick = () => {
+          li.classList.add("zoomable");
+          li.onclick = (e) => {
+            if (e.target.closest("button")) return;
             const outs = (item.outs || []).filter((o) => o.blob.type.startsWith("image/"));
             if (outs.length) openPreview(outs.map((o) => ({ src: o.url, caption: o.name })));
             else openPreview([{ src: item.srcUrl || item.thumb, caption: item.file.name }]);
