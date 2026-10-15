@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Converter – Chuyển đổi & nén ảnh</title>
+    <meta
+      name="description"
+      content="Chuyển ảnh sang WebP, JPEG, PNG, nén và resize ngay trên trình duyệt — ảnh không được tải lên đâu cả."
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='9' cy='9' r='2'/><path d='m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21'/></svg>" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="top">
+        <div>
+          <h1 data-i18n="title">Chuyển đổi & nén ảnh</h1>
+          <p class="muted" data-i18n="subtitle">WebP · JPEG · PNG — chạy ngay trên trình duyệt, ảnh không được tải lên đâu cả.</p>
+        </div>
+        <div class="top-actions">
+          <button id="lang" class="ghost" type="button" title="English">EN</button>
+          <a class="ghost" href="https://github.com/hoangpham2263/image-converter" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </header>
+
+      <button id="drop" class="drop" type="button">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 5h6M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/><circle cx="9" cy="9" r="2"/></svg>
+        <strong data-i18n="drop">Kéo thả ảnh vào đây hoặc bấm để chọn</strong>
+        <span class="muted small" data-i18n="dropHint">JPG, PNG, WebP, GIF (khung đầu), BMP… Có thể chọn nhiều ảnh, hoặc dán bằng Ctrl/Cmd + V.</span>
+      </button>
+      <input id="file" type="file" accept="image/*" multiple hidden />
+
+      <section class="panel settings">
+        <div class="field">
+          <span class="label" data-i18n="format">Định dạng</span>
+          <div class="seg" id="format">
+            <button type="button" data-format="image/webp" class="active">WEBP</button>
+            <button type="button" data-format="image/jpeg">JPG</button>
+            <button type="button" data-format="image/png">PNG</button>
+          </div>
+        </div>
+        <label class="field">
+          <span class="label"><span data-i18n="quality">Chất lượng</span>: <b id="qv">80%</b></span>
+          <input id="quality" type="range" min="10" max="100" value="80" />
+        </label>
+        <label class="field">
+          <span class="label" data-i18n="maxWidth">Chiều rộng tối đa</span>
+          <select id="maxw">
+            <option value="0" data-i18n="original">Giữ nguyên</option>
+            <option>2560</option><option>1920</option><option>1600</option><option>1200</option>
+            <option>1024</option><option>800</option><option>600</option>
+          </select>
+        </label>
+      </section>
+
+      <section id="result" hidden>
+        <div class="bar">
+          <p id="summary" class="muted"></p>
+          <div class="actions">
+            <button id="all" class="primary" type="button" data-i18n="downloadAll">Tải tất cả</button>
+            <button id="clear" class="outline" type="button" data-i18n="clear">Xóa hết</button>
+          </div>
+        </div>
+        <ul id="list"></ul>
+      </section>
+
+      <footer class="muted small">
+        <span data-i18n="footer">Làm bởi</span>
+        <a href="https://hoangpham.is-a.dev" target="_blank" rel="noopener">Phạm Quốc Hoàng</a> · MIT
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
