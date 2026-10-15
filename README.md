@@ -5,7 +5,6 @@ Convert files **right in your browser** — nothing is uploaded. File types are 
 
 **Demo:** https://hoangpham.is-a.dev/file-converter/
 
-![File Converter](./screenshot.webp)
 
 ## Tính năng / Features
 
