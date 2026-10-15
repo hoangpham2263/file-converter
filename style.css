@@ -104,6 +104,6 @@ footer { text-align: center; padding-top: 8px; }
 .convert { display: grid; gap: 10px; border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
 .convert .seg { max-width: 420px; }
 .convert .seg button { padding: 8px 4px; font-size: 13px; }
-.convert #quality { max-width: 420px; }
+.convert #quality { max-width: 520px; }
 .drop { padding: 48px 16px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }

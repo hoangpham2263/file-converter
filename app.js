@@ -13,10 +13,14 @@
       subtitle: "Chạy ngay trên trình duyệt — ảnh không được tải lên đâu cả.",
       to: "Đổi sang",
       quality: "Chất lượng",
-      qLight: "Nhẹ nhất",
-      qBalanced: "Cân bằng",
-      qSharp: "Nét nhất",
-      qhint: "Nhẹ nhất: file nhỏ nhất · Nét nhất: giữ chi tiết tốt nhất.",
+      qhints: {
+        40: "Nhẹ nhất — hợp ảnh xem trước, thumbnail.",
+        60: "Nhẹ — hợp ảnh đăng web nhiều ảnh.",
+        70: "Khá nhẹ, vẫn rõ khi xem trên điện thoại.",
+        80: "Cân bằng giữa dung lượng và độ nét (khuyên dùng).",
+        90: "Nét — hợp ảnh sản phẩm, banner.",
+        100: "Nét nhất — giữ chi tiết tối đa, file lớn nhất.",
+      },
       pngNote: "PNG luôn giữ nguyên chất lượng, không nén được theo cách này.",
       drop: "Kéo thả ảnh vào đây hoặc bấm để chọn",
       dropHint: "Chọn được nhiều ảnh cùng lúc, hoặc dán bằng Ctrl/Cmd + V.",
@@ -37,10 +41,14 @@
       subtitle: "Runs in your browser — nothing is uploaded.",
       to: "Convert to",
       quality: "Quality",
-      qLight: "Smallest",
-      qBalanced: "Balanced",
-      qSharp: "Sharpest",
-      qhint: "Smallest: lightest files · Sharpest: keeps the most detail.",
+      qhints: {
+        40: "Smallest — good for previews and thumbnails.",
+        60: "Light — good for image-heavy web pages.",
+        70: "Fairly light, still clear on phones.",
+        80: "Balanced size and sharpness (recommended).",
+        90: "Sharp — good for product photos and banners.",
+        100: "Sharpest — keeps maximum detail, largest files.",
+      },
       pngNote: "PNG is lossless, so this setting does not apply.",
       drop: "Drop images here or click to choose",
       dropHint: "Pick several at once, or paste with Ctrl/Cmd + V.",
@@ -105,7 +113,7 @@
       b.classList.toggle("active", Number(b.dataset.q) === state.quality);
       b.disabled = png;
     });
-    $("qhint").textContent = t(png ? "pngNote" : "qhint");
+    $("qhint").textContent = png ? t("pngNote") : t("qhints")[state.quality];
   }
 
   function applyLang() {

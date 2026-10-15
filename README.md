@@ -11,7 +11,7 @@ Change image format and compress images **right in your browser** — nothing is
 
 - Kéo thả, chọn file hoặc **dán (Ctrl/Cmd + V)**, nhiều ảnh cùng lúc — *drag & drop, picker or paste, many at once*
 - Đổi sang **WebP, JPG, PNG** (và **AVIF** nếu trình duyệt hỗ trợ) — *convert to WebP, JPG, PNG (and AVIF when supported)*
-- Nén với 3 mức: **Nhẹ nhất · Cân bằng · Nét nhất** — *three compression levels: Smallest · Balanced · Sharpest*
+- Nén với 6 mức chất lượng: **40% · 60% · 70% · 80% · 90% · 100%**, có gợi ý cho từng mức — *six quality levels with a hint for each*
 - Hiện dung lượng trước/sau và % giảm — *shows size before/after and % saved*
 - Tải từng ảnh hoặc **tải tất cả thành ZIP** — *download one by one or everything as a ZIP*
 - Giao diện **Việt / Anh**, tự theo chế độ sáng/tối — *Vietnamese / English UI, follows light/dark mode*
