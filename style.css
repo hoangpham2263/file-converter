@@ -110,6 +110,11 @@ footer { text-align: center; padding-top: 8px; }
 .convert { display: grid; gap: 10px; border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
 .convert .seg { max-width: 420px; }
 .convert .seg button { padding: 8px 4px; font-size: 13px; }
-.convert #quality { max-width: 520px; }
+.convert #quality { max-width: 560px; }
 .drop { padding: 48px 16px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Quality: default in the middle, lighter left, sharper right */
+.seg-q button { display: grid; gap: 1px; padding: 6px 4px; line-height: 1.2; }
+.seg-q b { font-size: 12.5px; }
+.seg-q small { font-size: 11px; font-weight: 500; opacity: .7; }
