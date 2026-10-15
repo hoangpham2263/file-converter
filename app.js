@@ -208,13 +208,15 @@
         btns.className = "row-actions";
         const dl = document.createElement("button");
         dl.type = "button";
-        dl.className = "outline";
-        dl.textContent = t("download");
+        dl.className = "btn-sm";
+        dl.title = t("download");
+        dl.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span></span>`;
+        dl.querySelector("span").textContent = t("download");
         dl.disabled = !item.out;
         dl.onclick = () => download(item);
         const rm = document.createElement("button");
         rm.type = "button";
-        rm.className = "icon";
+        rm.className = "btn-sm btn-icon";
         rm.textContent = "✕";
         rm.title = t("remove");
         rm.onclick = () => removeItem(item);
