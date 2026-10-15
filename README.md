@@ -3,7 +3,7 @@
 Chuyển đổi, nén và resize ảnh **ngay trên trình duyệt** — ảnh không được tải lên server nào.
 Convert, compress and resize images **right in your browser** — nothing is uploaded.
 
-**Demo:** https://hoangpham2263.github.io/image-converter/
+**Demo:** https://hoangpham.is-a.dev/image-converter/
 
 ![Image Converter](./screenshot.webp)
 
