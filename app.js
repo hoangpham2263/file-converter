@@ -231,7 +231,9 @@
     const ext = f.id;
     if (item.kind === "image") {
       const canvas = await imageCanvas(item, f.id === "jpg");
-      const blob = await toBlob(canvas, f.mime, q);
+      let blob = await toBlob(canvas, f.mime, q);
+      // Same format and no smaller: keep the original instead of a bigger copy
+      if (item.file.type === f.mime && blob.size >= item.file.size) blob = item.file;
       return [{ name: `${base(item.file.name)}.${ext}`, blob }];
     }
     const outs = [];
