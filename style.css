@@ -137,3 +137,13 @@ html[lang="vi"] .howto[lang="en"], html[lang="en"] .howto[lang="vi"] { display: 
 .wrap { width: 100%; max-width: 1280px; padding: 32px 16px 48px; }
 @media (min-width: 640px) { .wrap { padding-left: 24px; padding-right: 24px; } }
 @media (min-width: 1024px) { .wrap { padding-left: 32px; padding-right: 32px; } }
+
+/* File converter */
+.badge {
+  width: 56px; height: 56px; flex-shrink: 0; display: grid; place-items: center; border-radius: 8px;
+  font-size: 11px; font-weight: 800; color: #fff; background: #64748b;
+}
+.badge.pdf { background: #dc2626; }
+#detected { margin: 0; }
+#detected b { color: var(--fg); }
+.howto ul { margin: 4px 0; padding-left: 18px; }
