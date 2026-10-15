@@ -39,6 +39,7 @@
       remove: "Xóa",
       up: "Lên",
       down: "Xuống",
+      preview: "Xem lớn",
       processing: "Đang xử lý…",
       error: "Không đọc được file này",
       unsupported: "Chưa hỗ trợ loại file này",
@@ -79,6 +80,7 @@
       remove: "Remove",
       up: "Up",
       down: "Down",
+      preview: "Preview",
       processing: "Processing…",
       error: "Could not read this file",
       unsupported: "File type not supported",
@@ -351,7 +353,14 @@
         if (item.thumb) {
           thumb = document.createElement("img");
           thumb.alt = "";
-          thumb.src = item.thumb;
+          thumb.src = item.outs?.[0]?.blob.type.startsWith("image/") ? item.outs[0].url : item.thumb;
+          thumb.className = "zoomable";
+          thumb.title = t("preview");
+          thumb.onclick = () => {
+            const outs = (item.outs || []).filter((o) => o.blob.type.startsWith("image/"));
+            if (outs.length) openPreview(outs.map((o) => ({ src: o.url, caption: o.name })));
+            else openPreview([{ src: item.srcUrl || item.thumb, caption: item.file.name }]);
+          };
         } else {
           thumb = document.createElement("span");
           thumb.className = `badge ${item.kind}`;
