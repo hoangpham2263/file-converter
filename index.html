@@ -6,7 +6,7 @@
     <title>Image Converter – Chuyển đổi & nén ảnh</title>
     <meta
       name="description"
-      content="Chuyển ảnh sang WebP, JPEG, PNG, nén và resize ngay trên trình duyệt — ảnh không được tải lên đâu cả."
+      content="Chuyển ảnh sang WebP, AVIF, JPEG, PNG, nén theo dung lượng, resize, đổi tên hàng loạt và tải ZIP — ngay trên trình duyệt, ảnh không được tải lên đâu cả."
     />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='9' cy='9' r='2'/><path d='m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21'/></svg>" />
     <link rel="stylesheet" href="style.css" />
@@ -16,7 +16,7 @@
       <header class="top">
         <div>
           <h1 data-i18n="title">Chuyển đổi & nén ảnh</h1>
-          <p class="muted" data-i18n="subtitle">WebP · JPEG · PNG — chạy ngay trên trình duyệt, ảnh không được tải lên đâu cả.</p>
+          <p class="muted" data-i18n="subtitle">WebP · AVIF · JPEG · PNG — chạy ngay trên trình duyệt, ảnh không được tải lên đâu cả.</p>
         </div>
         <div class="top-actions">
           <button id="lang" class="ghost" type="button" title="English">EN</button>
@@ -24,41 +24,89 @@
         </div>
       </header>
 
-      <button id="drop" class="drop" type="button">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 5h6M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/><circle cx="9" cy="9" r="2"/></svg>
-        <strong data-i18n="drop">Kéo thả ảnh vào đây hoặc bấm để chọn</strong>
-        <span class="muted small" data-i18n="dropHint">JPG, PNG, WebP, GIF (khung đầu), BMP… Có thể chọn nhiều ảnh, hoặc dán bằng Ctrl/Cmd + V.</span>
-      </button>
-      <input id="file" type="file" accept="image/*" multiple hidden />
-
-      <section class="panel settings">
-        <div class="field">
-          <span class="label" data-i18n="format">Định dạng</span>
-          <div class="seg" id="format">
-            <button type="button" data-format="image/webp" class="active">WEBP</button>
-            <button type="button" data-format="image/jpeg">JPG</button>
-            <button type="button" data-format="image/png">PNG</button>
-          </div>
-        </div>
-        <label class="field">
-          <span class="label"><span data-i18n="quality">Chất lượng</span>: <b id="qv">80%</b></span>
-          <input id="quality" type="range" min="10" max="100" value="80" />
-        </label>
-        <label class="field">
-          <span class="label" data-i18n="maxWidth">Chiều rộng tối đa</span>
-          <select id="maxw">
-            <option value="0" data-i18n="original">Giữ nguyên</option>
-            <option>2560</option><option>1920</option><option>1600</option><option>1200</option>
-            <option>1024</option><option>800</option><option>600</option>
-          </select>
-        </label>
+      <!-- Step 1 -->
+      <section class="step">
+        <h2><span class="num">1</span><span data-i18n="step1">Chọn ảnh</span></h2>
+        <button id="drop" class="drop" type="button">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 5h6M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/><circle cx="9" cy="9" r="2"/></svg>
+          <strong data-i18n="drop">Kéo thả ảnh vào đây hoặc bấm để chọn</strong>
+          <span class="muted small" data-i18n="dropHint">JPG, PNG, WebP, AVIF, GIF (khung đầu), BMP… Chọn được nhiều ảnh, hoặc dán bằng Ctrl/Cmd + V.</span>
+        </button>
+        <input id="file" type="file" accept="image/*" multiple hidden />
       </section>
 
-      <section id="result" hidden>
+      <!-- Step 2 -->
+      <section class="step">
+        <h2><span class="num">2</span><span data-i18n="step2">Tùy chỉnh</span></h2>
+        <div class="presets" id="presets"></div>
+
+        <div class="panel settings">
+          <div class="field">
+            <span class="label" data-i18n="format">Định dạng</span>
+            <div class="seg" id="format"></div>
+          </div>
+
+          <div class="field">
+            <span class="label" data-i18n="compress">Nén</span>
+            <div class="seg" id="mode">
+              <button type="button" data-mode="quality" class="active" data-i18n="byQuality">Theo chất lượng</button>
+              <button type="button" data-mode="target" data-i18n="bySize">Theo dung lượng</button>
+            </div>
+            <div id="qualityBox">
+              <span class="label"><span data-i18n="quality">Chất lượng</span>: <b id="qv">80%</b></span>
+              <input id="quality" type="range" min="10" max="100" value="80" />
+            </div>
+            <div id="targetBox" hidden>
+              <label class="inline">
+                <span class="label" data-i18n="targetSize">Tối đa</span>
+                <input id="target" type="number" min="10" step="10" value="200" />
+                <span class="label">KB</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label" data-i18n="resize">Kích thước</span>
+            <div class="seg" id="resizeMode">
+              <button type="button" data-resize="none" class="active" data-i18n="original">Giữ nguyên</button>
+              <button type="button" data-resize="width" data-i18n="width">Rộng</button>
+              <button type="button" data-resize="height" data-i18n="height">Cao</button>
+              <button type="button" data-resize="percent">%</button>
+            </div>
+            <label class="inline" id="resizeBox" hidden>
+              <input id="resizeValue" type="number" min="1" value="1920" />
+              <span class="label" id="resizeUnit">px</span>
+            </label>
+            <span class="label small" data-i18n="noUpscale">Không phóng to ảnh nhỏ hơn kích thước đã chọn.</span>
+          </div>
+
+          <details class="more">
+            <summary data-i18n="more">Tùy chọn thêm</summary>
+            <div class="more-grid">
+              <label class="field">
+                <span class="label" data-i18n="rename">Đổi tên file</span>
+                <input id="rename" type="text" placeholder="{name}" />
+                <span class="label small" data-i18n="renameHint">{name} = tên gốc, {n} = số thứ tự. Ví dụ: san-pham-{n}</span>
+              </label>
+              <label class="field">
+                <span class="label" data-i18n="bg">Màu nền (cho JPG)</span>
+                <input id="bg" type="color" value="#ffffff" />
+                <span class="label small" data-i18n="bgHint">JPG không có nền trong suốt, phần trong suốt sẽ được tô màu này.</span>
+              </label>
+            </div>
+            <p class="label small" data-i18n="exif">Ảnh xuất ra tự động bỏ metadata EXIF (vị trí GPS, thông tin máy chụp…).</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section class="step" id="result" hidden>
+        <h2><span class="num">3</span><span data-i18n="step3">Tải về</span></h2>
         <div class="bar">
           <p id="summary" class="muted"></p>
           <div class="actions">
-            <button id="all" class="primary" type="button" data-i18n="downloadAll">Tải tất cả</button>
+            <button id="zip" class="primary" type="button" data-i18n="downloadZip">Tải tất cả (ZIP)</button>
+            <button id="all" class="outline" type="button" data-i18n="downloadAll">Tải từng file</button>
             <button id="clear" class="outline" type="button" data-i18n="clear">Xóa hết</button>
           </div>
         </div>
@@ -70,6 +118,25 @@
         <a href="https://hoangpham.is-a.dev" target="_blank" rel="noopener">Phạm Quốc Hoàng</a> · MIT
       </footer>
     </main>
+
+    <!-- Before / after compare -->
+    <dialog id="compare">
+      <div class="cmp-head">
+        <strong id="cmpTitle"></strong>
+        <button id="cmpClose" class="ghost" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="cmp" id="cmpBox">
+        <img id="cmpAfter" alt="" />
+        <div class="cmp-before" id="cmpBeforeWrap"><img id="cmpBefore" alt="" /></div>
+        <div class="cmp-line" id="cmpLine"></div>
+        <input id="cmpRange" type="range" min="0" max="100" value="50" aria-label="Compare" />
+        <span class="tag left" data-i18n="before">Trước</span>
+        <span class="tag right" data-i18n="after">Sau</span>
+      </div>
+      <p id="cmpInfo" class="muted small"></p>
+    </dialog>
+
+    <script src="zip.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
