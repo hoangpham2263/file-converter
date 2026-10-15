@@ -147,3 +147,15 @@ html[lang="vi"] .howto[lang="en"], html[lang="en"] .howto[lang="vi"] { display: 
 #detected { margin: 0; }
 #detected b { color: var(--fg); }
 .howto ul { margin: 4px 0; padding-left: 18px; }
+
+/* Header: back link + mobile layout */
+.top-actions { align-items: center; }
+.back { color: var(--primary); }
+@media (max-width: 640px) {
+  .top { flex-wrap: wrap; align-items: flex-start; gap: 10px 12px; }
+  .top-actions { order: -1; width: 100%; justify-content: flex-end; margin: -8px -10px 0 0; }
+  .top-actions .back { margin-right: auto; margin-left: -10px; }
+  .brand img { width: 36px; height: 36px; }
+  h1 { font-size: 22px; }
+  .top p { font-size: 13.5px; }
+}
