@@ -84,41 +84,6 @@ select { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-
 #list .meta { font-size: 12.5px; color: var(--muted); }
 footer { text-align: center; padding-top: 8px; }
 
-/* Steps */
-.step { display: grid; gap: 10px; }
-.step h2 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
-.num {
-  display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 999px;
-  background: var(--primary); color: var(--primary-fg); font-size: 12px;
-}
-
-/* Presets */
-.presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-@media (max-width: 640px) { .presets { grid-template-columns: repeat(2, 1fr); } }
-.preset {
-  text-align: left; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: none;
-  display: grid; gap: 2px; transition: border-color .15s, background .15s;
-}
-.preset strong { font-size: 13.5px; }
-.preset span { font-size: 11.5px; color: var(--muted); }
-.preset:hover { background: var(--soft); }
-.preset.active { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
-
-.settings { grid-template-columns: repeat(3, 1fr); align-items: start; }
-@media (max-width: 640px) { .settings { grid-template-columns: 1fr; } }
-.seg button:disabled { opacity: .4; cursor: not-allowed; }
-.inline { display: flex; align-items: center; gap: 6px; }
-input[type="number"], input[type="text"] {
-  width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font: inherit; font-size: 13.5px;
-}
-.inline input[type="number"] { max-width: 110px; }
-input[type="color"] { width: 48px; height: 32px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: none; }
-
-.more { grid-column: 1 / -1; border-top: 1px dashed var(--border); padding-top: 10px; }
-.more summary { cursor: pointer; font-size: 13.5px; font-weight: 600; }
-.more-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
-@media (max-width: 640px) { .more-grid { grid-template-columns: 1fr; } }
-
 /* List */
 .row-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .icon { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 8px; background: none; color: var(--muted); }
@@ -128,22 +93,17 @@ input[type="color"] { width: 48px; height: 32px; padding: 0; border: 1px solid v
   .row-actions { width: 100%; justify-content: flex-end; }
 }
 
-/* Compare dialog */
-dialog {
-  width: min(960px, 94vw); border: 1px solid var(--border); border-radius: 14px; padding: 12px;
-  background: var(--bg); color: var(--fg);
-}
-dialog::backdrop { background: rgb(0 0 0 / .55); }
-.cmp-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
-.cmp-head strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cmp { position: relative; overflow: hidden; border-radius: 10px; background: repeating-conic-gradient(#0001 0 25%, transparent 0 50%) 0 0 / 16px 16px; }
-.cmp img { display: block; width: 100%; max-height: 75vh; object-fit: contain; }
-.cmp-before { position: absolute; inset: 0; }
-.cmp-before img { width: 100%; height: 100%; }
-.cmp-line { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; box-shadow: 0 0 0 1px #0003; pointer-events: none; }
-.cmp input[type="range"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
-.tag { position: absolute; top: 8px; padding: 2px 8px; border-radius: 999px; background: rgb(0 0 0 / .6); color: #fff; font-size: 12px; pointer-events: none; }
-.tag.left { left: 8px; }
-.tag.right { right: 8px; }
-
 [hidden] { display: none !important; }
+
+/* List actions */
+.row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.icon { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 8px; background: none; color: var(--muted); }
+.icon:hover { color: var(--warn); }
+
+/* Convert bar */
+.convert { display: grid; gap: 10px; border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.convert .seg { max-width: 420px; }
+.convert .seg button { padding: 8px 4px; font-size: 13px; }
+.convert #quality { max-width: 420px; }
+.drop { padding: 48px 16px; }
+.seg button:disabled { opacity: .4; cursor: not-allowed; }

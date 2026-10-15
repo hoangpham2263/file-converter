@@ -1,7 +1,7 @@
 # Image Converter
 
-Chuyển đổi, nén và resize ảnh **ngay trên trình duyệt** — ảnh không được tải lên server nào.
-Convert, compress and resize images **right in your browser** — nothing is uploaded.
+Đổi định dạng và nén ảnh **ngay trên trình duyệt** — ảnh không được tải lên server nào.
+Change image format and compress images **right in your browser** — nothing is uploaded.
 
 **Demo:** https://hoangpham.is-a.dev/image-converter/
 
@@ -9,17 +9,12 @@ Convert, compress and resize images **right in your browser** — nothing is upl
 
 ## Tính năng / Features
 
-- **3 bước rõ ràng:** chọn ảnh → tùy chỉnh → tải về — *3 clear steps: choose → adjust → download*
-- **Preset 1 chạm:** Ảnh web, Ảnh sản phẩm, Thumbnail, Facebook/Zalo, Dưới 200 KB, Giữ nguyên — *one-click presets*
-- Đổi sang **WebP, AVIF** (nếu trình duyệt hỗ trợ), **JPEG, PNG** — *convert to WebP, AVIF (when supported), JPEG or PNG*
-- Nén **theo chất lượng** hoặc **theo dung lượng mục tiêu** (vd. ≤ 200 KB, tự dò chất lượng) — *compress by quality or to a target file size*
-- Resize theo **chiều rộng, chiều cao hoặc %**, giữ tỉ lệ, không phóng to ảnh nhỏ — *resize by width, height or percent, never upscales*
-- **So sánh trước/sau** bằng thanh kéo — *before/after compare slider*
-- **Đổi tên hàng loạt** theo mẫu `{name}`, `{n}` — *batch rename with a pattern*
-- **Tải tất cả thành ZIP** hoặc từng file — *download everything as a ZIP or one by one*
-- Chọn **màu nền** khi chuyển ảnh trong suốt sang JPG — *background colour for JPG*
-- Tự **bỏ metadata EXIF** (GPS, thông tin máy chụp) — *EXIF metadata is stripped*
-- Kéo thả, chọn file hoặc **dán (Ctrl/Cmd + V)**; giao diện **Việt / Anh**, sáng/tối — *drag & drop, picker or paste; VI/EN UI, light/dark*
+- Kéo thả, chọn file hoặc **dán (Ctrl/Cmd + V)**, nhiều ảnh cùng lúc — *drag & drop, picker or paste, many at once*
+- Đổi sang **WebP, JPG, PNG** (và **AVIF** nếu trình duyệt hỗ trợ) — *convert to WebP, JPG, PNG (and AVIF when supported)*
+- Nén với 3 mức: **Nhẹ nhất · Cân bằng · Nét nhất** — *three compression levels: Smallest · Balanced · Sharpest*
+- Hiện dung lượng trước/sau và % giảm — *shows size before/after and % saved*
+- Tải từng ảnh hoặc **tải tất cả thành ZIP** — *download one by one or everything as a ZIP*
+- Giao diện **Việt / Anh**, tự theo chế độ sáng/tối — *Vietnamese / English UI, follows light/dark mode*
 
 ## Cách hoạt động / How it works
 
