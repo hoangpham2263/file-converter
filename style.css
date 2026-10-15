@@ -117,3 +117,8 @@ footer { text-align: center; padding-top: 8px; }
 /* Quality: default in the middle, lighter left, sharper right */
 .seg-q button { padding: 8px 4px; }
 .seg-q b { font-size: 13px; }
+
+/* Brand */
+.top { align-items: center; }
+.brand { flex-shrink: 0; display: block; line-height: 0; }
+.top-text { flex: 1; min-width: 0; }
