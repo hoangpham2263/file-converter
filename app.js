@@ -41,6 +41,9 @@
       down: "Xuống",
       preview: "Xem lớn",
       processing: "Đang xử lý…",
+      run: "Chuyển đổi",
+      pending: "Chờ chuyển đổi",
+      readyHint: "chọn định dạng rồi bấm Chuyển đổi",
       error: "Không đọc được file này",
       unsupported: "Chưa hỗ trợ loại file này",
       merged: "Đã gộp vào PDF",
@@ -82,6 +85,9 @@
       down: "Down",
       preview: "Preview",
       processing: "Processing…",
+      run: "Convert",
+      pending: "Ready to convert",
+      readyHint: "pick a format, then click Convert",
       error: "Could not read this file",
       unsupported: "File type not supported",
       merged: "Merged into the PDF",
@@ -296,14 +302,24 @@
     state.combined = null;
   }
 
+  // Options and file changes only mark results as stale; work starts on the Convert button
+  function invalidate() {
+    state.run++;
+    state.running = false;
+    reset();
+    render();
+  }
+
   async function process() {
     const run = ++state.run;
+    state.running = true;
     reset();
     render();
     if (state.target === "pdf") {
       const blob = await buildPdf(run);
       if (run !== state.run) return;
       state.combined = blob ? { blob, url: URL.createObjectURL(blob) } : null;
+      state.running = false;
       render();
       return;
     }
@@ -324,6 +340,8 @@
       item.busy = false;
       render();
     }
+    state.running = false;
+    render();
   }
 
   const outSize = (item) => (item.outs || []).reduce((s, o) => s + o.blob.size, 0);
@@ -333,7 +351,7 @@
     const pdfMode = state.target === "pdf";
     $("result").hidden = items.length === 0;
     const active = items.filter((i) => i.kind !== "other");
-    const busy = active.some((i) => !i.done && !i.error);
+    const busy = state.running && active.some((i) => !i.done && !i.error);
     const totalIn = active.filter((i) => i.done).reduce((s, i) => s + i.file.size, 0);
     const totalOut = pdfMode ? state.combined?.blob.size || 0 : active.reduce((s, i) => s + outSize(i), 0);
     const doneCount = active.filter((i) => i.done || i.error).length;
@@ -341,7 +359,9 @@
     if (busy) $("summary").textContent = `${t("processing")} ${doneCount}/${active.length}`;
     else if (totalOut)
       $("summary").innerHTML = `${items.length} ${t("files")} · ${formatBytes(totalIn)} → <b>${formatBytes(totalOut)}</b> <span class="${totalOut <= totalIn ? "good" : "warn"}">(${pct(totalIn, totalOut)})</span>`;
-    else $("summary").textContent = "";
+    else $("summary").textContent = active.length ? `${items.length} ${t("files")} · ${t("readyHint")}` : "";
+    $("run").disabled = busy || !active.length;
+    $("run").textContent = busy ? t("processing") : t("run");
     $("zip").textContent = pdfMode ? t("downloadPdf") : t("downloadZip");
     $("zip").disabled = busy || !totalOut;
     syncDetected();
@@ -380,7 +400,8 @@
         if (item.error) {
           meta.innerHTML = `<span class="warn"></span>`;
           meta.firstChild.textContent = item.error;
-        } else if (item.busy || (!item.done && !pdfMode) || (pdfMode && !item.done && !state.combined)) meta.textContent = `${from} · ${t("processing")}`;
+        } else if (item.busy || (state.running && !item.done)) meta.textContent = `${from} · ${t("processing")}`;
+        else if (!item.done) meta.textContent = `${from} · ${t("pending")}`;
         else if (pdfMode) meta.textContent = `${from} · ${t("merged")}`;
         else
           meta.textContent = `${from} · ${formatBytes(item.file.size)} → ${formatBytes(outSize(item))} (${pct(item.file.size, outSize(item))})${n > 1 ? ` · ${n} ${t("image")}` : ""}`;
@@ -430,7 +451,7 @@
   function move(idx, dir) {
     const items = state.items;
     [items[idx], items[idx + dir]] = [items[idx + dir], items[idx]];
-    process();
+    invalidate();
   }
 
   function saveBlob(blob, name) {
@@ -474,7 +495,7 @@
     if (item.srcUrl) URL.revokeObjectURL(item.srcUrl);
     item.outs?.forEach((o) => URL.revokeObjectURL(o.url));
     state.items = state.items.filter((i) => i !== item);
-    if (state.target === "pdf") process();
+    if (state.target === "pdf") invalidate();
     else render();
     syncTarget();
   }
@@ -502,7 +523,7 @@
     // Sensible default: PDFs alone → images, otherwise keep the chosen target
     if (state.items.every((i) => i.kind === "pdf") && state.target === "pdf") state.target = "jpg";
     syncTarget();
-    process();
+    invalidate();
   }
 
   // Events
@@ -527,15 +548,16 @@
     if (!f || f === state.target) return;
     state.target = f;
     syncTarget();
-    process();
+    invalidate();
   };
   $("quality").onclick = (e) => {
     const b = e.target.closest("[data-q]");
     if (!b || b.disabled || Number(b.dataset.q) === state.quality) return;
     state.quality = Number(b.dataset.q);
     syncTarget();
-    process();
+    invalidate();
   };
+  $("run").onclick = () => process();
   $("zip").onclick = downloadAll;
   $("clear").onclick = () => {
     state.run++;
