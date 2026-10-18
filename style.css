@@ -191,3 +191,8 @@ h1 { font-weight: 600; }
 #list li.zoomable { cursor: zoom-in; transition: border-color .15s, background .15s; }
 #list li.zoomable:hover { border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); background: var(--soft); }
 #list li.zoomable .btn-sm { cursor: pointer; }
+
+/* Mobile: 16px form text so iOS does not zoom in on focus */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px !important; }
+}
